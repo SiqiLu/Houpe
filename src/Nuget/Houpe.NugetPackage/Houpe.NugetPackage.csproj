@@ -1,0 +1,59 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Platforms>x64</Platforms>
+    <Version>0.0.1</Version>
+    <AssemblyVersion>0.0.1</AssemblyVersion>
+    <FileVersion>0.0.1</FileVersion>
+    <InformationalVersion>0.0.1</InformationalVersion>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>Houpe</PackageId>
+    <Title>Houpe</Title>
+    <Authors>SiqiLu lu.siqi@outlook.com</Authors>
+    <Product>Houpe</Product>
+    <RepositoryType>GitHub</RepositoryType>
+    <RepositoryUrl>https://github.com/SiqiLu/Houpe</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/SiqiLu/Houpe</PackageProjectUrl>
+    <Description>See more at https://github.com/SiqiLu/Houpe .</Description>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <PackageReleaseNotes>See more at https://github.com/SiqiLu/Houpe/blob/master/CHANGELOG.md .</PackageReleaseNotes>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <NoProjectBuildInPackageWelcome>false</NoProjectBuildInPackageWelcome>
+    <!-- You can choose between detailed or d, normal or n and false to disable verbosity. -->
+    <ProjectBuildInPackageVerbosity>normal</ProjectBuildInPackageVerbosity>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <NoWarn>1591;1603;1701;1702;1705</NoWarn>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <WarningsAsErrors>NU1605</WarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <NoWarn>1591;1603;1701;1702;1705</NoWarn>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Development\Houpe.Foundation\Houpe.Foundation.csproj"  PrivateAssets="all" />
+    <ProjectReference Include="..\..\Development\Houpe.Infrastructure\Houpe.Infrastructure.csproj"  PrivateAssets="all" />
+    <None Include="..\..\..\readme.md" Pack="true" PackagePath="\" />
+    <None Include="icon.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Teronis.MSBuild.Packaging.ProjectBuildInPackage" Version="1.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+</Project>
