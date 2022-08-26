@@ -8,7 +8,9 @@
 // ***********************************************************************
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
 
 namespace Houpe.Foundation
 {
@@ -28,6 +30,36 @@ namespace Houpe.Foundation
         /// </summary>
         /// <param name="action">指定的操作。</param>
         void Do(Action<int> action);
+
+        /// <summary>
+        ///     执行指定的操作，并且返回每次执行的结果值的集合。
+        /// </summary>
+        /// <param name="func">指定的操作。</param>
+        IEnumerable<TResult> Do<TResult>(Func<TResult> func);
+
+        /// <summary>
+        ///     执行指定的操作，并且返回每次执行的结果值的集合。
+        /// </summary>
+        /// <param name="func">指定的操作。</param>
+        IEnumerable<TResult> Do<TResult>(Func<int, TResult> func);
+
+        /// <summary>
+        ///     执行指定的操作。
+        /// </summary>
+        /// <param name="func">指定的操作。</param>
+        Task DoAsync(Func<Task> func);
+
+        /// <summary>
+        ///     执行指定的操作，并且返回每次执行的结果值的集合。
+        /// </summary>
+        /// <param name="func">指定的操作。</param>
+        Task<IEnumerable<TResult>> DoAsync<TResult>(Func<Task<TResult>> func);
+
+        /// <summary>
+        ///     执行指定的操作，并且返回每次执行的结果值的集合。
+        /// </summary>
+        /// <param name="func">指定的操作。</param>
+        Task<IEnumerable<TResult>> DoAsync<TResult>(Func<int, Task<TResult>> func);
     }
 
     /// <summary>
@@ -236,6 +268,87 @@ namespace Houpe.Foundation
             {
                 action(i);
             }
+        }
+
+        public IEnumerable<TResult> Do<TResult>(Func<TResult> func)
+        {
+            if (func == null)
+            {
+                throw new ArgumentNullException(nameof(func));
+            }
+
+            IList<TResult> results = new List<TResult>();
+
+            for (int i = _start; i <= _end; i++)
+            {
+                results.Add(func());
+            }
+
+            return results;
+        }
+
+        public IEnumerable<TResult> Do<TResult>(Func<int, TResult> func)
+        {
+            if (func == null)
+            {
+                throw new ArgumentNullException(nameof(func));
+            }
+
+            IList<TResult> results = new List<TResult>();
+
+            for (int i = _start; i <= _end; i++)
+            {
+                results.Add(func(i));
+            }
+
+            return results;
+        }
+
+        public async Task DoAsync(Func<Task> func)
+        {
+            if (func == null)
+            {
+                throw new ArgumentNullException(nameof(func));
+            }
+
+            for (int i = _start; i <= _end; i++)
+            {
+                await func();
+            }
+        }
+
+        public async Task<IEnumerable<TResult>> DoAsync<TResult>(Func<Task<TResult>> func)
+        {
+            if (func == null)
+            {
+                throw new ArgumentNullException(nameof(func));
+            }
+
+            IList<TResult> results = new List<TResult>();
+
+            for (int i = _start; i <= _end; i++)
+            {
+                results.Add(await func());
+            }
+
+            return results;
+        }
+
+        public async Task<IEnumerable<TResult>> DoAsync<TResult>(Func<int, Task<TResult>> func)
+        {
+            if (func == null)
+            {
+                throw new ArgumentNullException(nameof(func));
+            }
+
+            IList<TResult> results = new List<TResult>();
+
+            for (int i = _start; i <= _end; i++)
+            {
+                results.Add(await func(i));
+            }
+
+            return results;
         }
 
         #endregion
