@@ -7,7 +7,6 @@
 // LastModifiedBy   : Siqi Lu
 // ***********************************************************************
 
-using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Houpe.Foundation.Tests

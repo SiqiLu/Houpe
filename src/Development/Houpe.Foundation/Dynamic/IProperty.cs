@@ -2,28 +2,25 @@
 // Solution         : HoupeSolution
 // Project          : Houpe.Foundation
 // File             : IProperty.cs
-// CreatedAt        : 2020-11-28
-// LastModifiedAt   : 2021-04-05
-// LastModifiedBy   : Siqi Lu
+// CreatedAt        : 2023-01-10
+// LastModifiedAt   : 2023-01-12
+// LastModifiedBy   : lu.siqi(lu.siqi@outlook.com)
 // ***********************************************************************
-
-using System;
 
 #pragma warning disable 1591
 
-namespace Houpe.Foundation.Dynamic
+namespace Houpe.Foundation.Dynamic;
+
+/// <summary>
+///     Simple abstraction to make field and property access consistent
+/// </summary>
+public interface IProperty
 {
-    /// <summary>
-    ///     Simple abstraction to make field and property access consistent
-    /// </summary>
-    public interface IProperty
-    {
-        string Name { get; }
+    string Name { get; }
 
-        Type PropertyType { get; }
+    Type PropertyType { get; }
 
-        object GetValue(object obj, object[] index);
+    object? GetValue(object obj, object?[]? index);
 
-        void SetValue(object obj, object val, object[] index);
-    }
+    void SetValue(object obj, object? val, object?[]? index);
 }

@@ -2,63 +2,55 @@
 // Solution         : HoupeSolution
 // Project          : Houpe.Foundation
 // File             : UnicodeExtensions.cs
-// CreatedAt        : 2021-06-06
-// LastModifiedAt   : 2021-06-06
-// LastModifiedBy   : Siqi Lu
+// CreatedAt        : 2023-01-10
+// LastModifiedAt   : 2023-01-14
+// LastModifiedBy   : lu.siqi(lu.siqi@outlook.com)
 // ***********************************************************************
 
-using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
-namespace Houpe.Foundation
+namespace Houpe.Foundation;
+
+/// <summary>
+///     针对 <see cref="System.String" /> 和 <see cref="System.Byte" /> 关于 <see cref="System.Text.Encoding.Unicode" /> 的扩展方法。
+/// </summary>
+[SuppressMessage("Style", "IDE0049:Simplify Names", Justification = "<Pending>")]
+public static class UnicodeExtensions
 {
     /// <summary>
-    ///     针对 <see cref="System.String" /> 和 <see cref="System.Byte"/> 关于 <see cref="System.Text.Encoding.Unicode"/> 的扩展方法。
+    ///     使用 <see cref="System.Text.Encoding.Unicode" /> 将指定字节数组中的所有字节解码为一个字符串。
     /// </summary>
-    [SuppressMessage("Style", "IDE0049:Simplify Names", Justification = "<Pending>")]
-    public static class UnicodeExtensions
+    /// <param name="bytes">包含要解码的字节序列的字节数组。</param>
+    /// <returns>包含指定字节序列解码结果的 <see cref="System.String" />。</returns>
+    /// <exception cref="T:System.ArgumentException">字节数组中包含无效的 Unicode 码位。</exception>
+    /// <exception cref="System.ArgumentNullException">
+    ///     <paramref name="bytes" /> 为 null。
+    /// </exception>
+    /// <exception cref="T:System.Text.DecoderFallbackException">发生回退（请参见.NET Framework 中的字符编码以获得完整的解释）－和－<see cref="P:System.Text.Encoding.DecoderFallback" /> 设置为 <see cref="T:System.Text.DecoderExceptionFallback" />。</exception>
+    public static string DecodeToStringByUnicode(this byte[] bytes)
     {
-        /// <summary>
-        ///     使用 <see cref="System.Text.Encoding.Unicode" /> 将指定字符串中的所有字符编码为一个字节序列。
-        /// </summary>
-        /// <param name="s">包含要编码的字符的字符串。</param>
-        /// <returns>包含对指定的字符集进行编码结果的 <see cref="T:System.Byte[]" />。</returns>
-        /// <exception cref="System.ArgumentNullException"><paramref name="s" /> 为 <c>null</c>。</exception>
-        /// <exception cref="T:System.Text.DecoderFallbackException">
-        ///     发生回退（请参见.NET Framework 中的字符编码以获得完整的解释）－和－
-        ///     <see
-        ///         cref="P:System.Text.Encoding.DecoderFallback" />
-        ///     设置为 <see cref="T:System.Text.DecoderExceptionFallback" />。
-        /// </exception>
-        public static byte[] EncodeToBytesByUnicode(this string s)
-        {
-            if (s == null)
-            {
-                throw new ArgumentNullException(nameof(s));
-            }
+        ArgumentNullException.ThrowIfNull(bytes);
 
-            return Encoding.Unicode.GetBytes(s);
-        }
+        return Encoding.Unicode.GetString(bytes.FixBom());
+    }
 
-        /// <summary>
-        ///     使用 <see cref="System.Text.Encoding.Unicode" /> 将指定字节数组中的所有字节解码为一个字符串。
-        /// </summary>
-        /// <param name="bytes">包含要解码的字节序列的字节数组。</param>
-        /// <returns>包含指定字节序列解码结果的 <see cref="System.String" />。</returns>
-        /// <exception cref="T:System.ArgumentException">字节数组中包含无效的 Unicode 码位。</exception>
-        /// <exception cref="System.ArgumentNullException">
-        ///     <paramref name="bytes" /> 为 null。
-        /// </exception>
-        /// <exception cref="T:System.Text.DecoderFallbackException">发生回退（请参见.NET Framework 中的字符编码以获得完整的解释）－和－<see cref="P:System.Text.Encoding.DecoderFallback" /> 设置为 <see cref="T:System.Text.DecoderExceptionFallback" />。</exception>
-        public static string DecodeToStringByUnicode(this byte[] bytes)
-        {
-            if (bytes == null)
-            {
-                throw new ArgumentNullException(nameof(bytes), Resource.ArgumentNull_Array);
-            }
+    /// <summary>
+    ///     使用 <see cref="System.Text.Encoding.Unicode" /> 将指定字符串中的所有字符编码为一个字节序列。
+    /// </summary>
+    /// <param name="s">包含要编码的字符的字符串。</param>
+    /// <returns>包含对指定的字符集进行编码结果的 <see cref="T:System.Byte[]" />。</returns>
+    /// <exception cref="System.ArgumentNullException"><paramref name="s" /> 为 <c>null</c>。</exception>
+    /// <exception cref="T:System.Text.DecoderFallbackException">
+    ///     发生回退（请参见.NET Framework 中的字符编码以获得完整的解释）－和－
+    ///     <see
+    ///         cref="P:System.Text.Encoding.DecoderFallback" />
+    ///     设置为 <see cref="T:System.Text.DecoderExceptionFallback" />。
+    /// </exception>
+    public static byte[] EncodeToBytesByUnicode(this string s)
+    {
+        ArgumentNullException.ThrowIfNull(s);
 
-            return Encoding.Unicode.GetString(bytes.FixBom());
-        }
+        return Encoding.Unicode.GetBytes(s);
     }
 }

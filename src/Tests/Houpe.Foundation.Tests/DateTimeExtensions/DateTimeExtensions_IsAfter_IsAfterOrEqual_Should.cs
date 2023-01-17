@@ -1,125 +1,123 @@
 // ***********************************************************************
 // Solution         : HoupeSolution
 // Project          : Houpe.Foundation.Tests
-// File             : DateTimeExtensions_IsBefore_IsBeforeOrEqual_Should.cs
-// CreatedAt        : 2021-06-24
-// LastModifiedAt   : 2021-06-24
-// LastModifiedBy   : Siqi Lu
+// File             : DateTimeExtensions_IsAfter_IsAfterOrEqual_Should.cs
+// CreatedAt        : 2023-01-10
+// LastModifiedAt   : 2023-01-14
+// LastModifiedBy   : lu.siqi(lu.siqi@outlook.com)
 // ***********************************************************************
 
-using System;
 using Bogus.DataSets;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Houpe.Foundation.Tests
+namespace Houpe.Foundation.Tests;
+
+[TestClass]
+public class DateTimeExtensions_IsAfter_IsAfterOrEqual_Should
 {
-    [TestClass]
-    public class DateTimeExtensions_IsAfter_IsAfterOrEqual_Should
+    [TestMethod]
+    public void IsAfter_Redundancy_Should()
     {
-        [TestMethod]
-        public void IsAfter_Should()
+        DateTime source = new DateTime(2000, 1, 1, 8, 0, 0);
+        DateTime destination = source.AddHours(-1);
+        TimeSpan tick = new TimeSpan(1);
+        TimeSpan hour = new TimeSpan(0, 1, 0, 0);
+
+        Assert.IsTrue(source.IsAfter(destination));
+        Assert.IsTrue(source.IsAfter(destination, tick));
+        Assert.IsTrue(source.IsAfter(destination, hour.Add(-tick)));
+
+        Assert.IsFalse(source.IsAfter(destination, hour));
+
+        Assert.IsFalse(source.IsAfter(destination, hour.Add(tick)));
+    }
+
+    [TestMethod]
+    public void IsAfter_Should()
+    {
+        DateTime test = new DateTime(2000, 1, 1, 8, 0, 0);
+        TimeSpan tick = new TimeSpan(1);
+
+        Assert.IsTrue(test.Add(tick).IsAfter(test));
+
+        Assert.IsFalse(test.IsAfter(test.Add(tick)));
+
+        Assert.IsFalse(test.IsAfter(test));
+
+        Date r = new Date();
+
+        100.Times().Do(() =>
         {
-            DateTime test = new DateTime(2000, 1, 1, 8, 0, 0);
-            TimeSpan tick = new TimeSpan(1);
+            DateTime t = r.Between(DateTime.MinValue, DateTime.MaxValue);
+            Assert.AreEqual(t > test, t.IsAfter(test));
+        });
 
-            Assert.IsTrue(test.Add(tick).IsAfter(test));
-
-            Assert.IsFalse(test.IsAfter(test.Add(tick)));
-
-            Assert.IsFalse(test.IsAfter(test));
-
-            Date r = new Date();
-
-            100.Times().Do(() =>
-            {
-                DateTime t = r.Between(DateTime.MinValue, DateTime.MaxValue);
-                Assert.AreEqual(t > test, t.IsAfter(test));
-            });
-
-            100.Times().Do(() =>
-            {
-                DateTime t = r.Soon(1, test);
-                Assert.IsTrue(t.IsAfter(test));
-            });
-
-            100.Times().Do(() =>
-            {
-                DateTime t = r.Recent(1, test);
-                Assert.IsFalse(t.IsAfter(test));
-            });
-        }
-
-        [TestMethod]
-        public void IsAfter_Redundancy_Should()
+        100.Times().Do(() =>
         {
-            DateTime source = new DateTime(2000, 1, 1, 8, 0, 0);
-            DateTime destination = source.AddHours(-1);
-            TimeSpan tick = new TimeSpan(1);
-            TimeSpan hour = new TimeSpan(0, 1, 0, 0);
+            DateTime t = r.Soon(1, test);
+            Assert.IsTrue(t.IsAfter(test));
+        });
 
-            Assert.IsTrue(source.IsAfter(destination));
-            Assert.IsTrue(source.IsAfter(destination, tick));
-            Assert.IsTrue(source.IsAfter(destination, hour.Add(-tick)));
-
-            Assert.IsFalse(source.IsAfter(destination, hour));
-
-            Assert.IsFalse(source.IsAfter(destination, hour.Add(tick)));
-        }
-
-        [TestMethod]
-        public void IsAfterOrEqual_Should()
+        100.Times().Do(() =>
         {
-            DateTime test = new DateTime(2000, 1, 1, 8, 0, 0);
-            TimeSpan tick = new TimeSpan(1);
+            DateTime t = r.Recent(1, test);
+            Assert.IsFalse(t.IsAfter(test));
+        });
+    }
 
-            Assert.IsTrue(test.Add(tick).IsAfterOrEqual(test));
+    [TestMethod]
+    public void IsAfterOrEqual_Redundancy_Should()
+    {
+        DateTime source = new DateTime(2000, 1, 1, 8, 0, 0);
+        DateTime destination = source.AddHours(-1);
+        TimeSpan tick = new TimeSpan(1);
+        TimeSpan hour = new TimeSpan(0, 1, 0, 0);
 
-            Assert.IsFalse(test.IsAfterOrEqual(test.Add(tick)));
+        Assert.IsTrue(source.IsAfterOrEqual(destination));
+        Assert.IsTrue(source.IsAfterOrEqual(destination, tick));
+        Assert.IsTrue(source.IsAfterOrEqual(destination, hour.Add(-tick)));
 
-            Assert.IsTrue(test.IsAfterOrEqual(test));
+        Assert.IsTrue(source.IsAfterOrEqual(destination, hour));
 
-            Date r = new Date();
+        Assert.IsFalse(source.IsAfterOrEqual(destination, hour.Add(tick)));
+    }
 
-            100.Times().Do(() =>
-            {
-                DateTime t = r.Between(DateTime.MinValue, DateTime.MaxValue);
-                Assert.AreEqual(t >= test, t.IsAfterOrEqual(test));
-            });
+    [TestMethod]
+    public void IsAfterOrEqual_Should()
+    {
+        DateTime test = new DateTime(2000, 1, 1, 8, 0, 0);
+        TimeSpan tick = new TimeSpan(1);
 
-            100.Times().Do(() =>
-            {
-                DateTime t = r.Soon(1, test);
-                Assert.IsTrue(t.IsAfterOrEqual(test));
-            });
+        Assert.IsTrue(test.Add(tick).IsAfterOrEqual(test));
 
-            100.Times().Do(() =>
-            {
-                DateTime t = r.Recent(1, test);
-                Assert.IsFalse(t.IsAfterOrEqual(test));
-            });
+        Assert.IsFalse(test.IsAfterOrEqual(test.Add(tick)));
 
-            100.Times().Do(() =>
-            {
-                DateTime t = r.Between(DateTime.MinValue, DateTime.MaxValue);
-                Assert.IsTrue(t.IsAfterOrEqual(t));
-            });
-        }
+        Assert.IsTrue(test.IsAfterOrEqual(test));
 
-        [TestMethod]
-        public void IsAfterOrEqual_Redundancy_Should()
+        Date r = new Date();
+
+        100.Times().Do(() =>
         {
-            DateTime source = new DateTime(2000, 1, 1, 8, 0, 0);
-            DateTime destination = source.AddHours(-1);
-            TimeSpan tick = new TimeSpan(1);
-            TimeSpan hour = new TimeSpan(0, 1, 0, 0);
+            DateTime t = r.Between(DateTime.MinValue, DateTime.MaxValue);
+            Assert.AreEqual(t >= test, t.IsAfterOrEqual(test));
+        });
 
-            Assert.IsTrue(source.IsAfterOrEqual(destination));
-            Assert.IsTrue(source.IsAfterOrEqual(destination, tick));
-            Assert.IsTrue(source.IsAfterOrEqual(destination, hour.Add(-tick)));
+        100.Times().Do(() =>
+        {
+            DateTime t = r.Soon(1, test);
+            Assert.IsTrue(t.IsAfterOrEqual(test));
+        });
 
-            Assert.IsTrue(source.IsAfterOrEqual(destination, hour));
+        100.Times().Do(() =>
+        {
+            DateTime t = r.Recent(1, test);
+            Assert.IsFalse(t.IsAfterOrEqual(test));
+        });
 
-            Assert.IsFalse(source.IsAfterOrEqual(destination, hour.Add(tick)));
-        }
+        100.Times().Do(() =>
+        {
+            DateTime t = r.Between(DateTime.MinValue, DateTime.MaxValue);
+            Assert.IsTrue(t.IsAfterOrEqual(t));
+        });
     }
 }

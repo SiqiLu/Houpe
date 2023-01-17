@@ -2,20 +2,20 @@
 // Solution         : HoupeSolution
 // Project          : Houpe.Foundation.Tests
 // File             : HashExtensions_GetHMACSHA512Hash_Should.cs
-// CreatedAt        : 2021-06-06
-// LastModifiedAt   : 2021-06-06
-// LastModifiedBy   : Siqi Lu
+// CreatedAt        : 2023-01-10
+// LastModifiedAt   : 2023-01-17
+// LastModifiedBy   : lu.siqi(lu.siqi@outlook.com)
 // ***********************************************************************
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Houpe.Foundation.Tests
+namespace Houpe.Foundation.Tests;
+
+[TestClass]
+public class HashExtensions_GetHMACSHA512Hash_Should
 {
-    [TestClass]
-    public class HashExtensions_GetHMACSHA512Hash_Should
-    {
-        public static readonly string Data =
-            @"The unanimous Declaration of the thirteen united States of America, When in the Course of human events, it becomes necessary for one people to dissolve the political bands which have connected them with another, and to assume among the powers of the earth, the separate and equal station to which the Laws of Nature and of Nature's God entitle them, a decent respect to the opinions of mankind requires that they should declare the causes which impel them to the separation.
+    public static readonly string Data =
+        @"The unanimous Declaration of the thirteen united States of America, When in the Course of human events, it becomes necessary for one people to dissolve the political bands which have connected them with another, and to assume among the powers of the earth, the separate and equal station to which the Laws of Nature and of Nature's God entitle them, a decent respect to the opinions of mankind requires that they should declare the causes which impel them to the separation.
 
 We hold these truths to be self-evident, that all men are created equal, that they are endowed by their Creator with certain unalienable Rights, that among these are Life, Liberty and the pursuit of Happiness.--That to secure these rights, Governments are instituted among Men, deriving their just powers from the consent of the governed, --That whenever any Form of Government becomes destructive of these ends, it is the Right of the People to alter or to abolish it, and to institute new Government, laying its foundation on such principles and organizing its powers in such form, as to them shall seem most likely to effect their Safety and Happiness. Prudence, indeed, will dictate that Governments long established should not be changed for light and transient causes; and accordingly all experience hath shewn, that mankind are more disposed to suffer, while evils are sufferable, than to right themselves by abolishing the forms to which they are accustomed. But when a long train of abuses and usurpations, pursuing invariably the same Object evinces a design to reduce them under absolute Despotism, it is their right, it is their duty, to throw off such Government, and to provide new Guards for their future security.--Such has been the patient sufferance of these Colonies; and such is now the necessity which constrains them to alter their former Systems of Government. The history of the present King of Great Britain is a history of repeated injuries and usurpations, all having in direct object the establishment of an absolute Tyranny over these States. To prove this, let Facts be submitted to a candid world.
 
@@ -79,37 +79,36 @@ Nor have We been wanting in attentions to our Brittish brethren. We have warned 
 
 We, therefore, the Representatives of the united States of America, in General Congress, Assembled, appealing to the Supreme Judge of the world for the rectitude of our intentions, do, in the Name, and by Authority of the good People of these Colonies, solemnly publish and declare, That these United Colonies are, and of Right ought to be Free and Independent States; that they are Absolved from all Allegiance to the British Crown, and that all political connection between them and the State of Great Britain, is and ought to be totally dissolved; and that as Free and Independent States, they have full Power to levy War, conclude Peace, contract Alliances, establish Commerce, and to do all other Acts and Things which Independent States may of right do. And for the support of this Declaration, with a firm reliance on the protection of divine Providence, we mutually pledge to each other our Lives, our Fortunes and our sacred Honor.";
 
-        [TestMethod]
-        public void HelloWorld_Should()
-        {
-            string source = "Hello World!";
-            string expected = "C4946A50CCC9BA6FC68955822DC95C8DA5D8A676481989B88DC43CE4FC3AB91E4608852FAFB25D429AE2F94CE9D8B2F35A85F4C62977DF0671E2EC6073C4FE5E";
+    [TestMethod]
+    public void Empty_Should()
+    {
+        string source = string.Empty;
+        string expected = "B53D6782EE180DA43CE8399ED3BB9CEA21DC4004D05B4F6517713AC9509C57803D9D149A6AD401AE885EDAF47B0198DFB396BBA4541DF1D0F79F876E06B2639B";
 
-            string actual = source.GetHMACSHA512Hash();
+        string actual = source.GetHMACSHA512Hash();
 
-            Assert.AreEqual(expected, actual);
-        }
+        Assert.AreEqual(expected, actual);
+    }
 
-        [TestMethod]
-        public void Text_Should()
-        {
-            string source = Data.Replace("\r", "").Replace("\n", "");
-            string expected = "CE7B3AFA534C92CA565E45596577A02B199D622A42180036B44C8E12FD231EA941DC646CA2113E66F9252DB1370538E144C6CF7CA62628498F0F12E0640E6AE6";
+    [TestMethod]
+    public void HelloWorld_Should()
+    {
+        string source = "Hello World!";
+        string expected = "C4946A50CCC9BA6FC68955822DC95C8DA5D8A676481989B88DC43CE4FC3AB91E4608852FAFB25D429AE2F94CE9D8B2F35A85F4C62977DF0671E2EC6073C4FE5E";
 
-            string actual = source.GetHMACSHA512Hash();
+        string actual = source.GetHMACSHA512Hash();
 
-            Assert.AreEqual(expected, actual);
-        }
+        Assert.AreEqual(expected, actual);
+    }
 
-        [TestMethod]
-        public void Empty_Should()
-        {
-            string source = string.Empty;
-            string expected = "B53D6782EE180DA43CE8399ED3BB9CEA21DC4004D05B4F6517713AC9509C57803D9D149A6AD401AE885EDAF47B0198DFB396BBA4541DF1D0F79F876E06B2639B";
+    [TestMethod]
+    public void Text_Should()
+    {
+        string source = Data.Replace("\r", "").Replace("\n", "");
+        string expected = "CE7B3AFA534C92CA565E45596577A02B199D622A42180036B44C8E12FD231EA941DC646CA2113E66F9252DB1370538E144C6CF7CA62628498F0F12E0640E6AE6";
 
-            string actual = source.GetHMACSHA512Hash();
+        string actual = source.GetHMACSHA512Hash();
 
-            Assert.AreEqual(expected, actual);
-        }
+        Assert.AreEqual(expected, actual);
     }
 }

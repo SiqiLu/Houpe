@@ -2,78 +2,77 @@
 // Solution         : HoupeSolution
 // Project          : Houpe.Infrastructure.Tests
 // File             : ObjectPoolService_Test.cs
-// CreatedAt        : 2022-08-07
-// LastModifiedAt   : 2022-08-07
-// LastModifiedBy   : Siqi Lu
+// CreatedAt        : 2023-01-10
+// LastModifiedAt   : 2023-01-17
+// LastModifiedBy   : lu.siqi(lu.siqi@outlook.com)
 // ***********************************************************************
 
-using System;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Text;
 
-namespace Houpe.Infrastructure.Tests
+#pragma warning disable CS8625
+
+namespace Houpe.Infrastructure.Tests;
+
+[TestClass]
+public class ObjectPoolService_Test
 {
-    [TestClass]
-    public class ObjectPoolService_Test
+    [TestMethod]
+    [ExpectedException(typeof(ArgumentNullException))]
+    public void ObjectPoolService_Test_ArgumentNullException() => _ = new ObjectPoolService<StringBuilder>(null);
+
+    [TestMethod]
+    public async Task ObjectPoolService_Test_Should()
     {
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void ObjectPoolService_Test_ArgumentNullException() => _ = new ObjectPoolService<StringBuilder>(null);
+        IObjectPoolService<StringBuilder> pool = new ObjectPoolService<StringBuilder>(() => new StringBuilder());
 
-        [TestMethod]
-        public async Task ObjectPoolService_Test_Should()
+        StringBuilder sb1 = pool.GetObject();
+        StringBuilder sb2 = pool.GetObject();
+
+        pool.PutObject(sb1);
+
+        StringBuilder sb3 = pool.GetObject();
+
+        Assert.IsFalse(ReferenceEquals(sb1, sb2));
+        Assert.IsTrue(ReferenceEquals(sb1, sb3));
+
+        StringBuilder sb4 = new StringBuilder();
+        StringBuilder sb5 = new StringBuilder();
+        StringBuilder sb6 = new StringBuilder();
+        StringBuilder sb7 = new StringBuilder();
+
+        pool.Using(sb =>
         {
-            IObjectPoolService<StringBuilder> pool = new ObjectPoolService<StringBuilder>(() => new StringBuilder());
+            _ = sb.Append("Hello");
+            sb4 = sb;
+        });
 
-            StringBuilder sb1 = pool.GetObject();
-            StringBuilder sb2 = pool.GetObject();
+        await pool.UsingAsync(async sb =>
+        {
+            await Task.Delay(1);
+            _ = sb.Append("World");
+            sb5 = sb;
+        });
 
-            pool.PutObject(sb1);
+        _ = await pool.UsingAsync(async sb =>
+        {
+            await Task.Delay(1);
+            _ = sb.Append("World");
+            sb6 = sb;
+            return sb.ToString();
+        });
 
-            StringBuilder sb3 = pool.GetObject();
+        pool.PutObject(sb2);
 
-            Assert.IsFalse(ReferenceEquals(sb1, sb2));
-            Assert.IsTrue(ReferenceEquals(sb1, sb3));
+        pool.Using(sb =>
+        {
+            _ = sb.Append("Hello");
+            sb7 = sb;
+        });
 
-            StringBuilder sb4 = new StringBuilder();
-            StringBuilder sb5 = new StringBuilder();
-            StringBuilder sb6 = new StringBuilder();
-            StringBuilder sb7 = new StringBuilder();
-
-            pool.Using(sb =>
-            {
-                _ = sb.Append("Hello");
-                sb4 = sb;
-            });
-
-            await pool.UsingAsync(async sb =>
-            {
-                await Task.Delay(1);
-                _ = sb.Append("World");
-                sb5 = sb;
-            });
-
-            _ = await pool.UsingAsync(async sb =>
-            {
-                await Task.Delay(1);
-                _ = sb.Append("World");
-                sb6 = sb;
-                return sb.ToString();
-            });
-
-            pool.PutObject(sb2);
-
-            pool.Using(sb =>
-            {
-                _ = sb.Append("Hello");
-                sb7 = sb;
-            });
-
-            Assert.IsTrue(ReferenceEquals(sb4, sb5));
-            Assert.IsTrue(ReferenceEquals(sb4, sb6));
-            Assert.IsTrue(ReferenceEquals(sb5, sb6));
-            Assert.IsTrue(ReferenceEquals(sb2, sb7));
-        }
+        Assert.IsTrue(ReferenceEquals(sb4, sb5));
+        Assert.IsTrue(ReferenceEquals(sb4, sb6));
+        Assert.IsTrue(ReferenceEquals(sb5, sb6));
+        Assert.IsTrue(ReferenceEquals(sb2, sb7));
     }
 }

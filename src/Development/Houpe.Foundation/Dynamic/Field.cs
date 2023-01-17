@@ -2,37 +2,35 @@
 // Solution         : HoupeSolution
 // Project          : Houpe.Foundation
 // File             : Field.cs
-// CreatedAt        : 2020-11-28
-// LastModifiedAt   : 2021-04-05
-// LastModifiedBy   : Siqi Lu
+// CreatedAt        : 2023-01-10
+// LastModifiedAt   : 2023-01-12
+// LastModifiedBy   : lu.siqi(lu.siqi@outlook.com)
 // ***********************************************************************
 
-using System;
 using System.Reflection;
 
 #pragma warning disable 1591
 
-namespace Houpe.Foundation.Dynamic
+namespace Houpe.Foundation.Dynamic;
+
+public static class FieldInfoExtensions
 {
-    public static class FieldInfoExtensions
-    {
-        public static IProperty ToIProperty(this FieldInfo info) => new Field { FieldInfo = info };
-    }
+    public static IProperty ToIProperty(this FieldInfo info) => new Field { FieldInfo = info };
+}
 
-    public class Field : IProperty
-    {
-        internal FieldInfo FieldInfo { get; set; }
+public class Field : IProperty
+{
+    public required FieldInfo FieldInfo { get; init; }
 
-        #region IProperty Members
+    #region IProperty Members
 
-        public string Name => FieldInfo.Name;
+    public object? GetValue(object obj, object?[]? index) => FieldInfo.GetValue(obj);
 
-        public Type PropertyType => FieldInfo.FieldType;
+    public string Name => FieldInfo.Name;
 
-        public object GetValue(object obj, object[] index) => FieldInfo.GetValue(obj);
+    public Type PropertyType => FieldInfo.FieldType;
 
-        public void SetValue(object obj, object val, object[] index) => FieldInfo.SetValue(obj, val);
+    public void SetValue(object obj, object? val, object?[]? index) => FieldInfo.SetValue(obj, val);
 
-        #endregion
-    }
+    #endregion
 }

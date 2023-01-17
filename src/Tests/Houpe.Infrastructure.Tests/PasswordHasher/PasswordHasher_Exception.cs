@@ -1,54 +1,53 @@
-﻿// ***********************************************************************
+// ***********************************************************************
 // Solution         : HoupeSolution
 // Project          : Houpe.Infrastructure.Tests
 // File             : PasswordHasher_Exception.cs
-// CreatedAt        : 2022-07-24
-// LastModifiedAt   : 2022-07-24
-// LastModifiedBy   : Siqi Lu
+// CreatedAt        : 2023-01-10
+// LastModifiedAt   : 2023-01-17
+// LastModifiedBy   : lu.siqi(lu.siqi@outlook.com)
 // ***********************************************************************
 
-using System;
-using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Houpe.Infrastructure.Tests
+#pragma warning disable CS8625
+
+namespace Houpe.Infrastructure.Tests;
+
+[TestClass]
+public class PasswordHasher_Exception
 {
-    [TestClass]
-    public class PasswordHasher_Exception
+    public static readonly string TestData = "12345";
+
+    [TestMethod]
+    [ExpectedException(typeof(InvalidOperationException))]
+    public void PasswordHasher_BadOptions_InvalidOperationException()
     {
-        public static readonly string TestData = "12345";
+        IPasswordHasher hasher = new PasswordHasher(new PasswordHasherOptions { IterationCount = -1 });
 
-        [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
-        public void PasswordHasher_BadOptions_InvalidOperationException()
-        {
-            IPasswordHasher hasher = new PasswordHasher(new OptionsWrapper<PasswordHasherOptions>(new PasswordHasherOptions { IterationCount = -1 }));
+        string _ = hasher.HashPassword(TestData);
+    }
 
-            string _ = hasher.HashPassword(TestData);
-        }
+    [TestMethod]
+    [ExpectedException(typeof(ArgumentNullException))]
+    public void PasswordHasher_HashPassword_ArgumentNullException()
+    {
+        IPasswordHasher hasher = new PasswordHasher();
+        string _ = hasher.HashPassword(null);
+    }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void PasswordHasher_HashPassword_ArgumentNullException()
-        {
-            IPasswordHasher hasher = new PasswordHasher();
-            string _ = hasher.HashPassword(null);
-        }
+    [TestMethod]
+    [ExpectedException(typeof(ArgumentNullException))]
+    public void PasswordHasher_VerifyHashedPassword_HashedPassword_ArgumentNullException()
+    {
+        IPasswordHasher hasher = new PasswordHasher();
+        PasswordVerificationResult _ = hasher.VerifyHashedPassword(null, "12345");
+    }
 
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void PasswordHasher_VerifyHashedPassword_HashedPassword_ArgumentNullException()
-        {
-            IPasswordHasher hasher = new PasswordHasher();
-            PasswordVerificationResult _ = hasher.VerifyHashedPassword(null, "12345");
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void PasswordHasher_VerifyHashedPassword_ProvidedPassword_ArgumentNullException()
-        {
-            IPasswordHasher hasher = new PasswordHasher();
-            PasswordVerificationResult _ = hasher.VerifyHashedPassword("12345", null);
-        }
+    [TestMethod]
+    [ExpectedException(typeof(ArgumentNullException))]
+    public void PasswordHasher_VerifyHashedPassword_ProvidedPassword_ArgumentNullException()
+    {
+        IPasswordHasher hasher = new PasswordHasher();
+        PasswordVerificationResult _ = hasher.VerifyHashedPassword("12345", null);
     }
 }

@@ -7,10 +7,9 @@
 // LastModifiedBy   : Siqi Lu
 // ***********************************************************************
 
-using System.Collections;
-using System.Collections.Generic;
 using Houpe.Foundation.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections;
 
 namespace Houpe.Foundation.Tests
 {
@@ -18,9 +17,9 @@ namespace Houpe.Foundation.Tests
     public class EnumerableExtensions_Should
     {
         public static readonly IEnumerable<int> TestData = new[] { 0, 1, 2 };
-        public static readonly IEnumerable<int> NullTestData = null;
+        public static readonly IEnumerable<int>? NullTestData = null;
         public static readonly IEnumerable<int> EmptyTestData = new int[] { };
-        public static readonly IEnumerable<string> NullElementTestData = new[] { "0", null, "1", null, "2" };
+        public static readonly IEnumerable<string?> NullElementTestData = new[] { "0", null, "1", null, "2" };
 
         [TestMethod]
         public void IsNotNullOrEmpty_Should()

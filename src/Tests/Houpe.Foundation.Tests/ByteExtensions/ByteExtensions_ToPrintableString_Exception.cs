@@ -2,27 +2,27 @@
 // Solution         : HoupeSolution
 // Project          : Houpe.Foundation.Tests
 // File             : ByteExtensions_ToPrintableString_Exception.cs
-// CreatedAt        : 2021-05-16
-// LastModifiedAt   : 2021-05-16
-// LastModifiedBy   : Siqi Lu
+// CreatedAt        : 2023-01-10
+// LastModifiedAt   : 2023-01-14
+// LastModifiedBy   : lu.siqi(lu.siqi@outlook.com)
 // ***********************************************************************
 
-using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Houpe.Foundation.Tests
-{
-    [TestClass]
-    public class ByteExtensions_ToPrintableString_Exception
-    {
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void ToPrintableString_Exception()
-        {
-            byte[] input = null;
+#pragma warning disable CS8604
 
-            // ReSharper disable once ExpressionIsAlwaysNull
-            string _ = input.ToPrintableString();
-        }
+namespace Houpe.Foundation.Tests;
+
+[TestClass]
+public class ByteExtensions_ToPrintableString_Exception
+{
+    [TestMethod]
+    [ExpectedException(typeof(ArgumentNullException))]
+    public void ToPrintableString_Exception()
+    {
+        byte[]? input = null;
+
+        // ReSharper disable once ExpressionIsAlwaysNull
+        string _ = input.ToPrintableString();
     }
 }

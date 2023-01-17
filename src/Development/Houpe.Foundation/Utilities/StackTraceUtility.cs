@@ -2,46 +2,45 @@
 // Solution         : HoupeSolution
 // Project          : Houpe.Foundation
 // File             : StackTraceUtility.cs
-// CreatedAt        : 2021-07-13
-// LastModifiedAt   : 2022-08-07
-// LastModifiedBy   : Siqi Lu
+// CreatedAt        : 2023-01-10
+// LastModifiedAt   : 2023-01-14
+// LastModifiedBy   : lu.siqi(lu.siqi@outlook.com)
 // ***********************************************************************
 
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
-namespace Houpe.Foundation
+namespace Houpe.Foundation;
+
+/// <summary>
+///     StackTraceUtility
+/// </summary>
+public static class StackTraceUtility
 {
     /// <summary>
-    ///     StackTraceUtility
+    ///     获取当前正在执行的方法所在类的名称。
     /// </summary>
-    public static class StackTraceUtility
+    /// <returns>当前正在执行的方法所在类的名称。</returns>
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    public static string GetCurrentClassName(int frameIndex = 1)
     {
-        /// <summary>
-        ///     获取当前正在执行的方法所在类的名称。
-        /// </summary>
-        /// <returns>当前正在执行的方法所在类的名称。</returns>
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        public static string GetCurrentClassName(int frameIndex = 1)
-        {
-            StackTrace st = new StackTrace();
-            StackFrame sf = st.GetFrame(frameIndex);
+        StackTrace st = new StackTrace();
+        StackFrame? sf = st.GetFrame(frameIndex);
 
-            return sf?.GetMethod()?.ReflectedType?.FullName ??
-                   sf?.GetMethod()?.DeclaringType?.FullName ?? sf?.GetFileName() ?? "";
-        }
+        return sf?.GetMethod()?.ReflectedType?.FullName ??
+               sf?.GetMethod()?.DeclaringType?.FullName ?? sf?.GetFileName() ?? "";
+    }
 
-        /// <summary>
-        ///     获取当前正在执行的方法的名称。
-        /// </summary>
-        /// <returns>当前正在执行的方法的名称。</returns>
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        public static string GetCurrentMethodName(int frameIndex = 1)
-        {
-            StackTrace st = new StackTrace();
-            StackFrame sf = st.GetFrame(frameIndex);
+    /// <summary>
+    ///     获取当前正在执行的方法的名称。
+    /// </summary>
+    /// <returns>当前正在执行的方法的名称。</returns>
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    public static string GetCurrentMethodName(int frameIndex = 1)
+    {
+        StackTrace st = new StackTrace();
+        StackFrame? sf = st.GetFrame(frameIndex);
 
-            return sf?.GetMethod()?.Name ?? "";
-        }
+        return sf?.GetMethod()?.Name ?? "";
     }
 }

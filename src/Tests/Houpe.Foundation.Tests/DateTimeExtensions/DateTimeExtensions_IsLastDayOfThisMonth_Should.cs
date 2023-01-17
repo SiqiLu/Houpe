@@ -7,7 +7,6 @@
 // LastModifiedBy   : Siqi Lu
 // ***********************************************************************
 
-using System;
 using Bogus.DataSets;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

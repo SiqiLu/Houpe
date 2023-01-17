@@ -1,18 +1,17 @@
 // ***********************************************************************
 // Solution         : HoupeSolution
-// Project          : Houpe.Infrastructure
+// Project          : Houpe.Foundation
 // File             : DateTimeService.cs
-// CreatedAt        : 2021-07-14
-// LastModifiedAt   : 2021-07-14
-// LastModifiedBy   : Siqi Lu
+// CreatedAt        : 2023-01-14
+// LastModifiedAt   : 2023-01-14
+// LastModifiedBy   : lu.siqi(lu.siqi@outlook.com)
 // ***********************************************************************
 
-namespace Houpe.Infrastructure
+namespace Houpe.Infrastructure;
+
+/// <summary>
+///     DateTimeService
+/// </summary>
+public class DateTimeService : IDateTimeService
 {
-    /// <summary>
-    ///     DateTimeService
-    /// </summary>
-    public class DateTimeService : IDateTimeService
-    {
-    }
 }

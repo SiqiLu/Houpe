@@ -7,9 +7,11 @@
 // LastModifiedBy   : Siqi Lu
 // ***********************************************************************
 
-using System;
-using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Text;
+
+#pragma warning disable CS8604
+#pragma warning disable CS8625
 
 namespace Houpe.Foundation.Tests
 {
@@ -20,14 +22,14 @@ namespace Houpe.Foundation.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void EncodeToBytesByTheEncoding_ArgumentNullException()
         {
-            string input = null;
+            string? input = null;
 
             // ReSharper disable once ExpressionIsAlwaysNull
             _ = input.EncodeToBytesByTheEncoding(Encoding.UTF8.WebName);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(ArgumentNullException))]
         public void EncodeToBytesByTheEncoding_Null_ArgumentException()
         {
             string input = "Hello world!";
@@ -57,14 +59,14 @@ namespace Houpe.Foundation.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void DecodeToStringByTheEncoding_ArgumentNullException()
         {
-            byte[] input = null;
+            byte[]? input = null;
 
             // ReSharper disable once ExpressionIsAlwaysNull
             _ = input.DecodeToStringByTheEncoding(Encoding.UTF8.WebName);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(ArgumentNullException))]
         public void DecodeToStringByTheEncoding_Null_ArgumentException()
         {
             byte[] input = Encoding.UTF8.GetBytes("Hello world!");

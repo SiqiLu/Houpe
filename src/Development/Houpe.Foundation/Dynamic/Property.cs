@@ -2,37 +2,35 @@
 // Solution         : HoupeSolution
 // Project          : Houpe.Foundation
 // File             : Property.cs
-// CreatedAt        : 2020-11-28
-// LastModifiedAt   : 2021-04-05
-// LastModifiedBy   : Siqi Lu
+// CreatedAt        : 2023-01-10
+// LastModifiedAt   : 2023-01-12
+// LastModifiedBy   : lu.siqi(lu.siqi@outlook.com)
 // ***********************************************************************
 
-using System;
 using System.Reflection;
 
 #pragma warning disable 1591
 
-namespace Houpe.Foundation.Dynamic
+namespace Houpe.Foundation.Dynamic;
+
+public static class PropertyInfoExtensions
 {
-    public static class PropertyInfoExtensions
-    {
-        public static IProperty ToIProperty(this PropertyInfo info) => new Property { PropertyInfo = info };
-    }
+    public static IProperty ToIProperty(this PropertyInfo info) => new Property { PropertyInfo = info };
+}
 
-    public class Property : IProperty
-    {
-        internal PropertyInfo PropertyInfo { get; set; }
+public class Property : IProperty
+{
+    public required PropertyInfo PropertyInfo { get; init; }
 
-        #region IProperty Members
+    #region IProperty Members
 
-        public string Name => PropertyInfo.Name;
+    public object? GetValue(object obj, object?[]? index) => PropertyInfo.GetValue(obj, index);
 
-        public Type PropertyType => PropertyInfo.PropertyType;
+    public string Name => PropertyInfo.Name;
 
-        public object GetValue(object obj, object[] index) => PropertyInfo.GetValue(obj, index);
+    public Type PropertyType => PropertyInfo.PropertyType;
 
-        public void SetValue(object obj, object val, object[] index) => PropertyInfo.SetValue(obj, val, index);
+    public void SetValue(object obj, object? val, object?[]? index) => PropertyInfo.SetValue(obj, val, index);
 
-        #endregion
-    }
+    #endregion
 }
