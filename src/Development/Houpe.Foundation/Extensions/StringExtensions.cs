@@ -221,29 +221,26 @@ public static class StringExtensions
     }
 
     /// <summary>
-    ///     将指定的JSON字符串反序列化为 <typeparamref name="T" /> 的实例。 如果 <paramref name="s" /> 是 <c>null</c>
-    ///     或者空字符串, 将返回 <typeparamref name="T" /> 的默认值 。
+    ///     将指定的JSON字符串反序列化为 <typeparamref name="T" /> 的实例。
     /// </summary>
     /// <typeparam name="T">反序列化的目标类型。</typeparam>
     /// <param name="s">指定的JSON字符串。</param>
+    /// /// <param name="options">反序列化的配置类。</param>
     /// <returns>
-    ///     <typeparamref name="T" /> 的实例。 如果 <paramref name="s" /> 是 <c>null</c> 或者空字符串, 则返回
-    ///     <typeparamref name="T" /> 的默认值 。
+    ///     <typeparamref name="T" /> 的实例。
     /// </returns>
-    public static T? FromJson<T>(this string? s) => s is null || s.IsNullOrEmpty() ? default : JsonSerializer.Deserialize<T>(s);
+    /// <exception cref="System.ArgumentNullException">
+    ///     <paramref name="s" /> 是 <c>null</c>。
+    /// </exception>
+    /// <exception cref="System.ArgumentException">
+    ///     <paramref name="s" /> 是 空字符串。
+    /// </exception>
+    public static T? FromJson<T>(this string s, JsonSerializerOptions? options = null)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(s);
 
-    /// <summary>
-    ///     将指定的JSON字符串反序列化为 <typeparamref name="T" /> 的实例。 如果 <paramref name="s" /> 是 <c>null</c>
-    ///     或者空字符串, 将返回 <typeparamref name="T" /> 的默认值 。
-    /// </summary>
-    /// <typeparam name="T">反序列化的目标类型。</typeparam>
-    /// <param name="s">指定的JSON字符串。</param>
-    /// <param name="options">反序列化的配置类。</param>
-    /// <returns>
-    ///     <typeparamref name="T" /> 的实例。 如果 <paramref name="s" /> 是 <c>null</c> 或者空字符串, 则返回
-    ///     <typeparamref name="T" /> 的默认值 。
-    /// </returns>
-    public static T? FromJson<T>(this string? s, JsonSerializerOptions options) => s is null || s.IsNullOrEmpty() ? default : JsonSerializer.Deserialize<T>(s, options);
+        return JsonSerializer.Deserialize<T>(s, options);
+    }
 
     /// <summary>
     ///     从 <paramref name="s" /> 的第一个字符开始向后截取指定数量字符的子字符串。如果需要的数量大于 <paramref name="s" /> 的长度，则直接返回

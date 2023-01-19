@@ -69,12 +69,12 @@ public static class ObjectExtensions
     /// </summary>
     /// <param name="value">The value to be transformed.</param>
     /// <returns>A string representation of the supplied <paramref name="value" />.</returns>
-    public static string Stringified(this object? value)
+    /// <exception cref="System.ArgumentNullException">
+    ///     <paramref name="value" /> 为 null。
+    /// </exception>
+    public static string Stringified(this object value)
     {
-        if (value is null)
-        {
-            return "null";
-        }
+        ArgumentNullException.ThrowIfNull(value);
 
         try
         {
@@ -89,35 +89,19 @@ public static class ObjectExtensions
     }
 
     /// <summary>
-    ///     将一个 <see cref="System.Object" /> 的实例序列化为 JSON。 如果实例的值为 <c>null</c>，会返回 <c>null</c>。
+    ///     将一个 <see cref="System.Object" /> 的实例序列化为 JSON。
     /// </summary>
     /// <param name="value">需要序列化的对象。</param>
     /// <param name="options">JSON 序列化的配置类。</param>
     /// <returns><paramref name="value" /> 序列化后的 JSON 字符串。</returns>
-    public static string? ToJson(this object? value, JsonSerializerOptions? options = null) => value.ToJson(null, options);
-
-    /// <summary>
-    ///     将一个 <see cref="System.Object" /> 的实例序列化为 JSON。 如果实例的值为 <c>null</c>，会返回 <paramref name="nullValue" />。
-    /// </summary>
-    /// <param name="value">需要序列化的对象。</param>
-    /// <param name="nullValue">如果实例的值为 <c>null</c>，会返回的字符串，可以为 <c>null</c>。</param>
-    /// <param name="options">JSON 序列化的配置类。</param>
-    /// <returns><paramref name="value" /> 序列化后的 JSON 字符串。</returns>
-    public static string? ToJson(this object? value, string? nullValue, JsonSerializerOptions? options = null)
+    /// <exception cref="System.ArgumentNullException">
+    ///     <paramref name="value" /> 为 null。
+    /// </exception>
+    public static string ToJson(this object value, JsonSerializerOptions? options = null)
     {
-        if (value == null)
-        {
-            return nullValue;
-        }
+        ArgumentNullException.ThrowIfNull(value);
 
-        try
-        {
-            return JsonSerializer.Serialize(value, options);
-        }
-        catch
-        {
-            return value.Stringified();
-        }
+        return JsonSerializer.Serialize(value, options);
     }
 
     private static string StringifyCollection(IEnumerable collection, int maximumNumberOfRecursiveCalls) =>

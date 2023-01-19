@@ -68,7 +68,7 @@ public static class ExceptionExtensions
 
             _ = sb.AppendLine($"Type: {exception.GetType().FullName}");
             _ = sb.AppendLine($"Message: {exception.Message}");
-            _ = sb.AppendLine($"DataJson: {exception.Data.ToJson("\\N", JsonOptions.LogJsonOptions)}");
+            _ = sb.AppendLine($"DataJson: {exception.Data.ToJson(JsonOptions.LogJsonOptions)}");
             _ = sb.AppendLine("Stacktrace:");
             _ = sb.AppendLine($"{exception.StackTrace}");
 

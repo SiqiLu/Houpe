@@ -17,7 +17,6 @@ public class ObjectExtensions_Stringified_Should
     [TestMethod]
     public void Stringified_Should()
     {
-        Assert.AreEqual("null", ((object?)null).Stringified());
         Assert.AreEqual("\"Hello World!\"", "Hello World!".Stringified());
         Assert.AreEqual("'H'", 'H'.Stringified());
 
