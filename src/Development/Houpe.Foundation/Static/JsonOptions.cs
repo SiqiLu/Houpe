@@ -7,6 +7,7 @@
 // LastModifiedBy   : lu.siqi(lu.siqi@outlook.com)
 // ***********************************************************************
 
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -32,7 +33,7 @@ public static class JsonOptions
         DictionaryKeyPolicy = null,
 
         // The encoder to use when escaping strings, or null to use the default encoder.
-        Encoder = null,
+        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
 
         // Indicates whether read-only fields are ignored during serialization. A field is read-only if it is marked with the readonly keyword. The default value is false.
         IgnoreReadOnlyFields = false,
@@ -59,7 +60,7 @@ public static class JsonOptions
         ReadCommentHandling = JsonCommentHandling.Skip,
 
         // Specifies how object references are handled when reading and writing JSON.
-        ReferenceHandler = ReferenceHandler.Preserve,
+        ReferenceHandler = ReferenceHandler.IgnoreCycles,
 
         // Specifies how deserializing a type declared as an Object is handled during deserialization.
         UnknownTypeHandling = JsonUnknownTypeHandling.JsonElement,
@@ -83,7 +84,7 @@ public static class JsonOptions
         DictionaryKeyPolicy = null,
 
         // The encoder to use when escaping strings, or null to use the default encoder.
-        Encoder = null,
+        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
 
         // Indicates whether read-only fields are ignored during serialization. A field is read-only if it is marked with the readonly keyword. The default value is false.
         IgnoreReadOnlyFields = false,
@@ -134,7 +135,7 @@ public static class JsonOptions
         DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
 
         // The encoder to use when escaping strings, or null to use the default encoder.
-        Encoder = null,
+        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
 
         // Indicates whether read-only fields are ignored during serialization. A field is read-only if it is marked with the readonly keyword. The default value is false.
         IgnoreReadOnlyFields = false,
